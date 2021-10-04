@@ -5,6 +5,7 @@ import './App.scss';
 import Searchbar from '../Searchbar/Searchbar';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import Button from '../Button/Button';
+import Modal from '../Modal/Modal';
 
 export default class App extends Component {
   state = {
@@ -14,6 +15,8 @@ export default class App extends Component {
     showModal: false,
     error: null,
     status: 'idle',
+    largeImageURL: null,
+    tags: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -54,11 +57,24 @@ export default class App extends Component {
       .catch(error => this.setState({ error, status: 'rejected' }));
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
+  setModalImgInfo = ({ largeImageURL, tags }) => {
+    this.setState({ largeImageURL, tags });
+    this.toggleModal();
+  };
+
   handlePageScroll = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+    }, 1000);
   };
 
   onSubmit = text => {
@@ -70,13 +86,18 @@ export default class App extends Component {
   };
 
   render() {
-    const { images } = this.state;
+    const { images, showModal, largeImageURL, tags } = this.state;
     return (
       <>
         <div className="App">
           <Searchbar onSubmit={this.onSubmit} />
-          <ImageGallery images={images} />
+          <ImageGallery images={images} setModalImgInfo={this.setModalImgInfo} />
           {images.length > 0 && <Button onLoadMore={this.onLoadMore} />}
+          {showModal && (
+            <Modal onClose={this.toggleModal}>
+              <img src={largeImageURL} alt={tags} />
+            </Modal>
+          )}
         </div>
         <ToastContainer transition={Zoom} autoClose={3000} />
       </>

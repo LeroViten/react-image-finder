@@ -1,7 +1,7 @@
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import './ImageGallery.scss';
 
-export default function ImageGallery({ images }) {
+export default function ImageGallery({ images, toggleModal, setModalImgInfo }) {
   return (
     <ul className="ImageGallery">
       {images.map(({ webformatURL, largeImageURL, tags, id }) => (
@@ -10,6 +10,8 @@ export default function ImageGallery({ images }) {
           webformatURL={webformatURL}
           largeImageURL={largeImageURL}
           tags={tags}
+          toggleModal={toggleModal}
+          setModalImgInfo={setModalImgInfo}
         />
       ))}
     </ul>

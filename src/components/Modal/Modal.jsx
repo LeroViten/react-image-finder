@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.scss';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export default class Modal extends Component {
+export default class Modal extends PureComponent {
   componentDidMount() {
     window.addEventListener('keydown', this.handleEscButtonPress);
   }
@@ -15,13 +15,13 @@ export default class Modal extends Component {
 
   handleEscButtonPress = event => {
     if (event.code === 'Escape') {
-      this.props.toggleModal();
+      this.props.onClose();
     }
   };
 
   handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.toggleModal();
+      this.props.onClose();
     }
   };
 
