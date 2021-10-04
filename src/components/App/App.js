@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { toast, ToastContainer, Zoom } from 'react-toastify';
+import Loader from 'react-loader-spinner';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import './App.scss';
 import Searchbar from '../Searchbar/Searchbar';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -86,11 +88,21 @@ export default class App extends Component {
   };
 
   render() {
-    const { images, showModal, largeImageURL, tags } = this.state;
+    const { images, showModal, largeImageURL, tags, status } = this.state;
     return (
       <>
         <div className="App">
           <Searchbar onSubmit={this.onSubmit} />
+          {status === 'pending' && (
+            <Loader
+              className="Loader"
+              type="Puff"
+              color="#00BFFF"
+              height={150}
+              width={150}
+              timeout={2000}
+            />
+          )}
           <ImageGallery images={images} setModalImgInfo={this.setModalImgInfo} />
           {images.length > 0 && <Button onLoadMore={this.onLoadMore} />}
           {showModal && (
