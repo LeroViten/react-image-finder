@@ -1,12 +1,7 @@
 import './ImageGalleryItem.scss';
+import PropTypes from 'prop-types';
 
-export default function ImageGalleryItem({
-  webformatURL,
-  largeImageURL,
-  tags,
-  toggleModal,
-  setModalImgInfo,
-}) {
+export default function ImageGalleryItem({ webformatURL, largeImageURL, tags, setModalImgInfo }) {
   return (
     <li className="ImageGalleryItem">
       <img
@@ -18,3 +13,10 @@ export default function ImageGalleryItem({
     </li>
   );
 }
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  setModalImgInfo: PropTypes.func.isRequired,
+};

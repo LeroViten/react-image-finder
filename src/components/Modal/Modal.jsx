@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
+
 import './Modal.scss';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -34,3 +36,8 @@ export default class Modal extends PureComponent {
     );
   }
 }
+
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};

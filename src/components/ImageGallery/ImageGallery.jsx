@@ -1,7 +1,8 @@
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 import './ImageGallery.scss';
+import PropTypes from 'prop-types';
 
-export default function ImageGallery({ images, toggleModal, setModalImgInfo }) {
+export default function ImageGallery({ images, setModalImgInfo }) {
   return (
     <ul className="ImageGallery">
       {images.map(({ webformatURL, largeImageURL, tags, id }) => (
@@ -10,10 +11,14 @@ export default function ImageGallery({ images, toggleModal, setModalImgInfo }) {
           webformatURL={webformatURL}
           largeImageURL={largeImageURL}
           tags={tags}
-          toggleModal={toggleModal}
           setModalImgInfo={setModalImgInfo}
         />
       ))}
     </ul>
   );
 }
+
+ImageGallery.propTypes = {
+  images: PropTypes.array.isRequired,
+  setModalImgInfo: PropTypes.func.isRequired,
+};
