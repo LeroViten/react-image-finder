@@ -27,9 +27,7 @@ export default class App extends Component {
 
     if (prevQuery !== nextQuery) {
       this.setState({ images: [], page: 1 });
-      setTimeout(() => {
-        this.fetchImages();
-      }, 1500);
+      this.fetchImages();
     }
   }
 
@@ -54,7 +52,9 @@ export default class App extends Component {
           status: 'resolved',
           page: prevState.page + 1,
         }));
-        this.handlePageScroll();
+        if (page !== 1) {
+          this.handlePageScroll();
+        }
       })
       .catch(error => this.setState({ error, status: 'rejected' }));
   };
@@ -71,16 +71,14 @@ export default class App extends Component {
   };
 
   handlePageScroll = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-    }, 1000);
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   };
 
   onSubmit = text => {
-    this.setState({ text });
+    this.setState({ text, page: 1 });
   };
 
   onLoadMore = () => {
@@ -89,6 +87,7 @@ export default class App extends Component {
 
   render() {
     const { images, showModal, largeImageURL, tags, status } = this.state;
+    const showLoadMore = images.length > 0 && images.length >= 12;
     return (
       <>
         <div className="App">
@@ -104,7 +103,7 @@ export default class App extends Component {
             />
           )}
           <ImageGallery images={images} setModalImgInfo={this.setModalImgInfo} />
-          {images.length > 0 && <Button onLoadMore={this.onLoadMore} />}
+          {showLoadMore && <Button onLoadMore={this.onLoadMore} />}
           {showModal && (
             <Modal onClose={this.toggleModal}>
               <img src={largeImageURL} alt={tags} />
