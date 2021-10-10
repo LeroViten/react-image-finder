@@ -88,6 +88,9 @@ export default function App() {
     <>
       <div className="App">
         <Searchbar onSubmit={onSubmit} />
+        {images.length === 0 && status !== 'pending' && (
+          <h2 style={{ textAlign: 'center' }}>Nothing to show! 😎 Use Search above😉</h2>
+        )}
         {status === 'pending' && (
           <Loader
             className="Loader"
