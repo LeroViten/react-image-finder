@@ -1,9 +1,10 @@
 import './ImageGalleryItem.scss';
 import PropTypes from 'prop-types';
+import 'animate.css';
 
 export default function ImageGalleryItem({ webformatURL, largeImageURL, tags, setModalImgInfo }) {
   return (
-    <li className="ImageGalleryItem">
+    <li className={`ImageGalleryItem animate_animated animate__zoomIn`}>
       <img
         src={webformatURL}
         alt={tags}

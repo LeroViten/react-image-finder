@@ -105,7 +105,7 @@ export default function App() {
         {showLoadMore && <Button onLoadMore={onLoadMore} />}
         {showModal && (
           <Modal onClose={toggleModal}>
-            <img src={largeImageURL} alt={tags} />
+            <img src={largeImageURL} alt={tags} width="800" height="600" />
           </Modal>
         )}
       </div>

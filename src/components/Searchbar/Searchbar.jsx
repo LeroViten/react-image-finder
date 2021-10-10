@@ -21,7 +21,7 @@ export default function Searchbar({ onSubmit }) {
   };
 
   return (
-    <header className="Searchbar">
+    <header className={`Searchbar animate__animated animate__fadeInDown`}>
       <form className="SearchForm" onSubmit={handleSubmit}>
         <button type="submit" className="SearchForm-button">
           <span className="SearchForm-button-label">Search</span>

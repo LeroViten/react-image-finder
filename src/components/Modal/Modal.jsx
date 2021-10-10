@@ -30,7 +30,7 @@ export default class Modal extends PureComponent {
   render() {
     return createPortal(
       <div className="Overlay" onClick={this.handleBackdropClick}>
-        <div className="Modal">{this.props.children}</div>
+        <div className={`Modal animate__animated animate__jackInTheBox`}>{this.props.children}</div>
       </div>,
       modalRoot,
     );
