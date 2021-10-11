@@ -9,6 +9,7 @@ import Searchbar from '../Searchbar/Searchbar';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
+import fetchImages from '../../services/apiService';
 
 export default function App() {
   const [text, setText] = useState('');
@@ -20,39 +21,31 @@ export default function App() {
   const [largeImageURL, setLargeImageURL] = useState(null);
   const [tags, setTags] = useState(null);
 
-  const fetchImages = () => {
-    const API_KEY = '22952317-a5881606497ad665bd114491c';
-    const BASE_URL = 'https://pixabay.com/api';
-    const perPage = 12;
-    const request = `/?image_type=photo&orientation=horizontal&q=${text}&page=${page}&per_page=${perPage}&key=${API_KEY}`;
-
-    setStatus('pending');
-
-    fetch(BASE_URL + request)
-      .then(res => res.json())
-      .then(array => {
-        const images = array.hits;
-        if (images.length < 1) {
-          toast.error('Nothing found, specify your search');
-        }
-        setImages(prev => [...prev, ...images]);
-        setStatus('resolved');
-        setPage(prev => prev + 1);
-        if (page !== 1) {
-          handlePageScroll();
-        }
-      })
-      .catch(error => {
-        setError(error);
-        console.error(error.message);
-        setStatus('rejected');
-      });
-  };
-
   useEffect(() => {
     if (!text) return;
-    fetchImages();
+    getImages();
   }, [text]);
+
+  const getImages = async () => {
+    setStatus('pending');
+    try {
+      const images = await fetchImages(text, page);
+      if (images.length < 1) {
+        toast.error('Nothing found, specify your search');
+      }
+      setImages(prev => [...prev, ...images]);
+      setStatus('resolved');
+      setPage(prev => prev + 1);
+      if (page !== 1) {
+        handlePageScroll();
+      }
+    } catch (error) {
+      console.log('Error:', error.message);
+      setError({ error });
+    } finally {
+      setStatus('resolved');
+    }
+  };
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -79,7 +72,7 @@ export default function App() {
   };
 
   const onLoadMore = () => {
-    fetchImages();
+    getImages();
   };
 
   const showLoadMore = images.length > 0 && images.length >= 12;
